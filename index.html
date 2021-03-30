@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+
+  <script>
+    function checkValidIp(ip) {
+      const octectos = ip.split(".");
+
+      const result = octectos.filter((octect) => octect <= 255);
+
+      return result.length === 4;
+    }
+
+    function convert() {
+      const ip = document.getElementById("ip").value;
+
+      if (checkValidIp(ip)) {
+        const table = document.getElementById("table_wrapper");
+
+        const xhr = new XMLHttpRequest();
+
+        xhr.open("GET", `process.php?ip=${ip}`, true);
+
+        xhr.onload = function () {
+          const str = this.responseText;
+
+          table.innerHTML = this.responseText;
+        };
+
+        xhr.send();
+      } else {
+        alert("write a valid IP address pls !");
+      }
+    }
+  </script>
+
+  <body>
+    <input type="text" placeholder="ip: (ex 129.34.2.0)" name="ip" id="ip" />
+    <button onclick="convert()">convert</button>
+
+    <div id="table_wrapper"></div>
+  </body>
+</html>
